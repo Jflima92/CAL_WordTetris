@@ -144,8 +144,93 @@ void Board::fillInitialBoard()
 	}
 
 }
+void Board::spawnPiece()
+{
+
+	srand (time(NULL));
+
+	int j = rand() % 23+1;
+	int k = rand() % 7;
+
+	Piece piece(getPiecebyID(j), 0, k);
+
+	nextPiece = piece;
 
 
+	activePiece = nextPiece;
+
+	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
+
+}
+
+void Board::processInput()
+{
+	static bool leftState = false;
+	static bool rightState = false;
+	static bool downState = false;
+
+	int a;
+	a = _getch();
+	a =  _getch();
+	std::cout << a << std::endl;
+
+	if(a == 75)
+	{
+		moveLeft();
+
+	}
+	if(a == 77)
+	{
+		if(!rightState)
+		{
+			moveRight();
+
+		}
+		rightState = false;
+	}
+	else
+	{
+		rightState = false;
+	}
+
+
+	if(a == 80)
+	{
+		if(!downState)
+		{
+			moveDown();
+		}
+		downState = false;
+	}
+	else
+	{
+		downState = false;
+	}
+
+
+
+}
+
+void Board::moveLeft()
+{
+	board[activePiece.getX()][activePiece.getY()] = ' ';
+	activePiece.setX(activePiece.getX()-1);
+	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
+}
+
+void Board::moveRight()
+{
+	board[activePiece.getX()][activePiece.getY()] = ' ';
+	activePiece.setX(activePiece.getX()+1);
+	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
+}
+
+void Board::moveDown()
+{
+	board[activePiece.getX()][activePiece.getY()] = ' ';
+	activePiece.setY(activePiece.getX()+1);
+	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
+}
 
 
 

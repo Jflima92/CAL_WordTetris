@@ -9,6 +9,7 @@ private:
 	int y;
 
 public:
+	Piece();
 	Piece(char let, int x, int y); // constructor
 	void setPieceLetter(char let);
 	void setX(int x);
@@ -16,5 +17,6 @@ public:
 	char getPieceLetter();
 	int getX();
 	int getY();
+	bool Step();
 
 };

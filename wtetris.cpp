@@ -15,12 +15,16 @@ using namespace std;
 int main() {
 
 	Board board;
-//	cout << "Vamos testar"<< endl;
-//	board.drawBoard();
+	//	cout << "Vamos testar"<< endl;
+	//	board.drawBoard();
 	board.fillInitialBoard();
-	board.gameStart();
-//	board.clearScreen();
-	board.drawBoard();
+	board.spawnPiece();
+	//	board.clearScreen();
 
+	while(1)
+	{
+		board.drawBoard();
+		board.processInput();
+	}
 	return 0;
 }

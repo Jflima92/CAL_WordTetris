@@ -1,5 +1,9 @@
 #include "piece.h"
 
+Piece::Piece()
+{
+
+}
 Piece::Piece(char let, int x, int y)
 {
 	this->letter = let;
@@ -34,6 +38,13 @@ void Piece::setY(int y)
 int Piece::getY()
 {
 	return y;
+}
+
+bool Piece::Step()
+{
+	this->y++;
+	return true;
+
 }
 
 
