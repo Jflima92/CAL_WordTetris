@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 #include "piece.h"
 
@@ -39,17 +40,20 @@ public:
 	void moveRight();
 	void moveLeft();
 	void moveDown();
+	Piece generatePiece();
 	void activePieceFall();
 	void readDictionary();
 	void checkWords();
 	void addWords(string word);
 	void start();
 	void endGame();
+	void drawMenu();
 
 	int activePieceLastMoveTime;
 	Piece activePiece;
 	Piece nextPiece;
 	string matchedWord;
+	bool forceTerminate;
 	vector<string> words;
 
 

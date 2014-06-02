@@ -32,6 +32,10 @@ void Board::drawBoard()
 			std::cout << board[y][x] << "|";
 		}
 
+		if(y == 5)
+		{
+			std::cout <<  "\t|Next Piece: " << nextPiece.getPieceLetter();
+		}
 		std::cout << std::endl;
 
 	}
@@ -136,58 +140,59 @@ void Board::fillInitialBoard()
 	}
 
 }
-void Board::spawnPiece()
-{
 
+Piece Board::generatePiece()
+{
 	srand (time(NULL));
 
-	int j = rand() % 23+1;
+	int j = rand() % 60+1;
+	int aux;
 	int k = rand() % 5+1;
+	int c = rand() % 23+1;
 
-	if(j % 2 == 0)
+	if(j > 25 )
 	{
 		switch(k)
 		{
 		case 0:
-			j = 1;
+			aux = 1;
 			break;
 
 		case 1:
-			j = 5;
+			aux = 5;
 			break;
 
 		case 2:
-			j = 9;
+			aux = 9;
 			break;
 
 		case 3:
-			j = 15;
+			aux = 15;
 			break;
 
 		case 4:
-			j = 21;
+			aux = 21;
 			break;
-
 		}
 
-	Piece piece(getPiecebyID(j), 0, 4);
-	nextPiece = piece;
-
-	}
-	else
-	{
-		Piece piece(getPiecebyID(j), 0, 4);
-		nextPiece = piece;
+		Piece piece(getPiecebyID(aux), 0, 4);
+		return piece;
 	}
 
+	Piece piece(getPiecebyID(c), 0, 4);
+	return piece;
+}
 
-
-
-	activePieceLastMoveTime =GetTickCount();
+void Board::spawnPiece()
+{
 
 	activePiece = nextPiece;
 
+	activePieceLastMoveTime =GetTickCount();
+
 	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
+
+	nextPiece = generatePiece();
 
 }
 
@@ -233,6 +238,11 @@ void Board::processInput()
 	else
 	{
 		downState = false;
+	}
+
+	if(a == 27)
+	{
+		forceTerminate = true;
 	}
 
 
@@ -290,14 +300,14 @@ void Board::activePieceFall()
 
 void Board::gameStart() {
 
-	clearScreen();
+	system("cls");
 
 	if(board[0][4] != ' ' && board[1][4] != ' ' )
 	{
 		endGame();
 	}
 
-	else if(board[activePiece.getX()+1][activePiece.getY()] == ' ')
+	if(board[activePiece.getX()+1][activePiece.getY()] == ' ')
 	{
 		activePieceFall();
 		drawBoard();
@@ -311,6 +321,11 @@ void Board::gameStart() {
 	}
 
 
+}
+
+bool compareByLength(const string &a, const string &b)
+{
+	return a.size() > b.size();
 }
 
 void Board::readDictionary()
@@ -362,7 +377,6 @@ void Board::checkWords()
 
 					while(dir < 8 && !found)
 					{
-
 						switch(dir)
 						{
 
@@ -390,6 +404,7 @@ void Board::checkWords()
 							}
 							if(check)
 							{
+
 								found = true;
 								if(words[l].size() > 2)
 								{
@@ -407,7 +422,6 @@ void Board::checkWords()
 											board[y][x-c] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : West" <<std::endl;
 								}
 
 							}
@@ -457,7 +471,6 @@ void Board::checkWords()
 										}
 
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : SouthWest" <<std::endl;
 								}
 							}
 							break;
@@ -503,7 +516,6 @@ void Board::checkWords()
 											board[y+c][x] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : South" <<std::endl;
 								}
 
 							}
@@ -551,7 +563,6 @@ void Board::checkWords()
 											board[y+c][x+c] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : SouthEast" <<std::endl;
 								}
 
 							}
@@ -599,7 +610,6 @@ void Board::checkWords()
 											board[y][x+c] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : East" <<std::endl;
 								}
 
 							}
@@ -646,7 +656,7 @@ void Board::checkWords()
 											board[y-c][x+c] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : NorthEast" <<std::endl;
+
 								}
 
 							}
@@ -693,8 +703,7 @@ void Board::checkWords()
 											board[y-c][x] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : North" <<std::endl;
-									Sleep(10);
+
 								}
 
 							}
@@ -741,7 +750,6 @@ void Board::checkWords()
 											board[y-c][x-c] = ' ';
 										}
 									}
-									std::cout <<words[l]<< "  ("<< y << ","<< x<<" )"<<"   direction : NorthWest" <<std::endl;
 								}
 
 							}
@@ -760,23 +768,29 @@ void Board::start()
 {
 	readDictionary();
 	fillInitialBoard();
-	drawBoard();
+	nextPiece = generatePiece();
 	spawnPiece();
 	drawBoard();
 
 	//	board.clearScreen();
 	while(1)
 	{
-		std::cout << "Score: " << score <<std::endl;
-		while(!_kbhit()){
-			gameStart();
-			Sleep(400);
+		if(!forceTerminate)
+		{
+			while(!_kbhit()){
+				gameStart();
+				Sleep(350);
+			}
+			processInput();
+			drawBoard();
+			system("cls");
 		}
-		clearScreen();
-		processInput();
-		drawBoard();
-		Sleep(150);
-		clearScreen();
+		else
+			{
+			system("cls");
+			drawMenu();
+			break;
+			}
 	}
 }
 
@@ -785,4 +799,39 @@ void Board::endGame()
 	std::cout <<"BOOOOOOOOOOM! You have lost with the score of: " << score << "!" << std::endl;
 	Sleep(100);
 	return;
+}
+
+void Board::drawMenu()
+{
+
+	std::cout << "Welcome to Tetris\n";
+	std::cout << "\n1. Start Game.\n";
+	std::cout << "6. Exit\n\n";
+
+	int opt;
+
+	std::cout << "Option: ";
+	std::cin >> opt;
+	system("cls");
+
+	switch(opt)
+	{
+	case 1:
+	{
+		Board board;
+
+		board.start();
+
+		break;
+	}
+
+	case 6:
+		std::cout << "Goodbye."<< std::endl;
+		return;
+		break;
+
+	}
+
+	return;
+
 }
