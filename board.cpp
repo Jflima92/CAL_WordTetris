@@ -1,12 +1,11 @@
 #include "board.h"
 
-
 Board::Board()
 {
 	int x,y;
-	for(x = 0; x < 10; x++)
-		for ( y = 0; y < 8; y++ )
-			board[x][y] = ' ';
+	for(y = 0; y < 10; y++)
+		for ( x = 0; x < 8; x++ )
+			board[y][x] = ' ';
 }
 
 void Board::clearScreen()
@@ -20,13 +19,13 @@ void Board::drawBoard()
 {
 
 	int x,y;
-	for(x = 0; x < 10; x++)
+	for(y = 0; y < 10; y++)
 	{
 		std::cout << "|";
 
-		for ( y = 0; y < 8; y++ )
+		for ( x = 0; x < 8; x++ )
 		{
-			std::cout << board[x][y] << "|";
+			std::cout << board[y][x] << "|";
 		}
 
 		std::cout << std::endl;
@@ -136,11 +135,11 @@ void Board::fillInitialBoard()
 {
 	srand (time(NULL));
 
-	for(int i = 1; i <= 8; i++)
+	for(int x = 0; x < 8; x++)
 	{
 		int j = rand() % 23+1;
-		Piece piece(getPiecebyID(j),9, i);
-		board[piece.getX()][piece.getY()-1] = piece.getPieceLetter();
+		Piece piece(getPiecebyID(j),9, x);
+		board[piece.getX()][piece.getY()] = piece.getPieceLetter();
 	}
 
 }
@@ -158,6 +157,8 @@ void Board::spawnPiece()
 
 
 	activePiece = nextPiece;
+	std::cout << activePiece.getX() << std::endl;
+	std::cout << activePiece.getY() << std::endl;
 
 	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
 
@@ -213,22 +214,24 @@ void Board::processInput()
 
 void Board::moveLeft()
 {
+
 	board[activePiece.getX()][activePiece.getY()] = ' ';
-	activePiece.setX(activePiece.getX()-1);
+	activePiece.setY(activePiece.getY()-1);
+
 	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
 }
 
 void Board::moveRight()
 {
 	board[activePiece.getX()][activePiece.getY()] = ' ';
-	activePiece.setX(activePiece.getX()+1);
+	activePiece.setY(activePiece.getY()+1);
 	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
 }
 
 void Board::moveDown()
 {
 	board[activePiece.getX()][activePiece.getY()] = ' ';
-	activePiece.setY(activePiece.getX()+1);
+	activePiece.setX(activePiece.getX()+1);
 	board[activePiece.getX()][activePiece.getY()] = activePiece.getPieceLetter();
 }
 

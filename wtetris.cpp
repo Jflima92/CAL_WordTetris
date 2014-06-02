@@ -18,13 +18,16 @@ int main() {
 	//	cout << "Vamos testar"<< endl;
 	//	board.drawBoard();
 	board.fillInitialBoard();
+	board.drawBoard();
 	board.spawnPiece();
+	board.drawBoard();
+
 	//	board.clearScreen();
 
-	while(1)
-	{
-		board.drawBoard();
+	while(1){
 		board.processInput();
+		board.drawBoard();
 	}
+
 	return 0;
 }
