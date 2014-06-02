@@ -15,37 +15,36 @@ using namespace std;
 
 int main() {
 
-	Board board;
+	cout << "Welcome to Tetris\n";
+	cout << "\n1. Start Game.\n";
+	cout << "6. Exit\n\n";
 
-	//	cout << "Vamos testar"<< endl;
-	//	board.drawBoard();
-	board.readDictionary();
-	cout << board.words[1] << endl;
-	board.fillInitialBoard();
-	board.checkWords();
-	board.drawBoard();
-	board.spawnPiece();
-	board.drawBoard();
+	int opt;
 
+	cout << "Option: ";
+	cin >> opt;
+	system("cls");
 
-
-	//	board.clearScreen();
-	while(1)
+	switch(opt)
 	{
+	case 1:
+	{
+		Board board;
 
-		while(!_kbhit()){
+		board.start();
 
-			//enquanto não é pressionada nenhuma tecla faz descer a peça
-			//sempre que desce uma peça verifica que na posição a seguir não tem nenhuma peça, se tive cria cria nova peça e volta a começar
-			board.gameStart();
-			Sleep(500);
-		}
-		board.clearScreen();
-		board.processInput();
-		board.drawBoard();
-		Sleep(150);
-		board.clearScreen();
+		break;
 	}
+
+	case 6:
+		cout << "Goodbye."<< endl;
+		return 0;
+		break;
+
+	}
+
+
+
 
 
 	return 0;

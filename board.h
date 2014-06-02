@@ -24,6 +24,7 @@ class Board // Class that stores any piece information
 
 private:
 	char board[10][8];     // 10 is y 8 is x | coordinates are reversed
+	int score;
 
 public:
 	Board(); // constructor
@@ -42,10 +43,13 @@ public:
 	void readDictionary();
 	void checkWords();
 	void addWords(string word);
+	void start();
+	void endGame();
 
 	int activePieceLastMoveTime;
 	Piece activePiece;
 	Piece nextPiece;
+	string matchedWord;
 	vector<string> words;
 
 
