@@ -1,15 +1,22 @@
 #include <iostream>
 #include <string>
-#include "piece.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
+#include <fstream>
+#include <vector>
+
+#include "piece.h"
 
 #define LEFT_BUTTON 75;
 #define RIGHT_BUTTON 77;
 #define DOWN_BUTTON 80;
+
+using std::string;
+using std::ifstream;
+using std::vector;
 
 
 class Board // Class that stores any piece information
@@ -31,10 +38,15 @@ public:
 	void moveRight();
 	void moveLeft();
 	void moveDown();
+	void activePieceFall();
+	void readDictionary();
+	void checkWords();
+	void addWords(string word);
 
-
+	int activePieceLastMoveTime;
 	Piece activePiece;
 	Piece nextPiece;
+	vector<string> words;
 
 
 };
